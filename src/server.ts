@@ -2,9 +2,11 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import { initialize } from 'express-openapi';
 
-const apiDoc = require('./apiDoc');
+import apiDoc from './apiDoc.json';
 
 const app = express();
+
+const isProductionEnvironment = process.env.NODE_ENV === 'production';
 
 app.use(bodyParser.json());
 
@@ -12,7 +14,7 @@ initialize({
   apiDoc,
   docsPath: '/docs',
   app,
-  paths: './src/apiPaths',
+  paths: isProductionEnvironment ? './dist/apiPaths' : './src/apiPaths',
   routesGlob: '**/*.{ts,js}',
   routesIndexFileRegExp: /(?:index)?\.[tj]s$/,
   exposeApiDocs: true

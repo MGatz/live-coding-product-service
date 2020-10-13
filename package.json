@@ -2,11 +2,11 @@
   "name": "live-coding-product-service",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/server.js",
   "scripts": {
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "node .",
+    "start": "NODE_ENV=production node .",
     "dev:start": "nodemon"
   },
   "repository": {
@@ -42,6 +42,9 @@
     "watch": [
       "src"
     ],
+    "env": {
+      "NODE_ENV": "development"
+    },
     "exec": "node --inspect=5858 -r ts-node/register ./src/server.ts",
     "ext": "ts"
   }
