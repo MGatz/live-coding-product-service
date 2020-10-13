@@ -6,7 +6,8 @@ import apiDoc from './apiDoc.json';
 
 const app = express();
 
-const isProductionEnvironment = process.env.NODE_ENV === 'production';
+const isProductionEnvironment: boolean = process.env.NODE_ENV === 'production';
+const port: number = process.env.PORT ? parseInt(process.env.PORT) : 8080;
 
 app.use(bodyParser.json());
 
@@ -24,4 +25,4 @@ app.use(((err, req, res, next) => {
   res.status(err.status).json(err);
 }) as express.ErrorRequestHandler);
 
-app.listen(8080);
+app.listen(port);
