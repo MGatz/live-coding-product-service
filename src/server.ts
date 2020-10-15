@@ -8,12 +8,13 @@ const app = express();
 
 const isProductionEnvironment: boolean = process.env.NODE_ENV === 'production';
 const port: number = process.env.PORT ? parseInt(process.env.PORT) : 8080;
+const docsPath = '/docs';
 
 app.use(bodyParser.json());
 
 initialize({
   apiDoc,
-  docsPath: '/docs',
+  docsPath,
   app,
   paths: isProductionEnvironment ? './dist/apiPaths' : './src/apiPaths',
   routesGlob: '**/*.{ts,js}',
@@ -25,4 +26,7 @@ app.use(((err, req, res, next) => {
   res.status(err.status).json(err);
 }) as express.ErrorRequestHandler);
 
-app.listen(port);
+app.listen(port, () => {
+  console.log(`Server started on port ${port}`);
+  console.log(`See the api documentation here http://localhost:${port}${docsPath}`);
+});

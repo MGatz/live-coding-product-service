@@ -1,13 +1,11 @@
-import { NextFunction } from "connect";
-import { Response } from "express";
+import { Response, Request } from "express";
 import { Operation } from "express-openapi";
-import { Request } from "express-serve-static-core";
 import { ProductService } from "../../services/ProductService";
 import { WeatherCondition } from "../../models/WeatherCondition";
 
 const productService: ProductService = ProductService.of();
 
-export const GET: Operation = (req: Request, res: Response, next: NextFunction) => {
+export const GET: Operation = (req: Request, res: Response) => {
   const { weatherCondition, temperature } = req.query;
 
   const weatherConditionEnumValue = getWeatherCondition(weatherCondition as string);
@@ -53,7 +51,9 @@ GET.apiDoc = {
   responses: {
     200: {
       description: 'The filtered product list',
-
+      schema: {
+        $ref: '#/definitions/ProductList'
+      }
     }
   }
 }
